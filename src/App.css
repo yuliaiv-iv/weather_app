@@ -7,20 +7,19 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e9dbc9;
-  background-image: url('');
+  background-image: url('./images/background.jpg');
   background-position: center bottom;
   background-size: cover;
 }
 
 .app {
-  background: #e20174;
+  background: #d4d4d4;
   border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   padding: 0 0 30px;
   text-align: center;
   width: 500px;
-  min-height: 300px;
+  height: 90vh;
   margin: 0 auto;
 }
 
@@ -45,9 +44,18 @@ input:active {
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
-.chart {
+.content {
+  display: flex;
+  flex-direction: column;
   padding: 0 30px 30px;
 }
 
-canvas {
+.current {
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+h2 {
+  margin: 0;
 }

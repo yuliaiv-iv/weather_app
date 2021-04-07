@@ -1,5 +1,5 @@
 import './App.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import GeoLocationForm from './components/GeoLocationForm';
 import Weather from './components/Weather';
 
@@ -12,12 +12,16 @@ export default function App() {
 
   const [location, setLocation] = useState(null);
 
-  console.log(location)
-  
   return (
     <div className="app">
-      <GeoLocationForm setLocation={setLocation} />
-      <Weather location={location} />
+      <GeoLocationForm
+        setLocation={setLocation}
+      />
+      {location &&
+        <Weather
+          location={location}
+        />
+      }
     </div>
   );
 }

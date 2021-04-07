@@ -1,50 +1,74 @@
 import React, { useState, useEffect } from 'react';
-import { Bar, defaults } from 'react-chartjs-2';
-defaults.global.legend.display = false;
 
-// const days = [
-//   'Sunday',
-//   'Monday',
-//   'Tuesday',
-//   'Wednesday',
-//   'Thursday',
-//   'Friday',
-//   'Saturday',
-// ];
-
-// const labels = [...Array(7)].map((_, i) => {
-//   const date = new Date();
-//   date.setDate(date.getDate() + i);
-//   return days[date.getDay()];
-// });
-
-// const options = {
-//   tooltips: { mode: 'index', intersect: false },
-//   scales: {
-//     xAxes: [
-//       {
-//         gridLines: false,
-//         ticks: { fontColor: '#F680BC', fontSize: 10, padding: 20 },
-//       },
-//     ],
-//     yAxes: [
-//       {
-//         gridLines: false,
-//         ticks: { fontColor: '#F680BC', fontSize: 10, padding: 20 },
-//       },
-//     ],
-//   },
-// };
-
-// const apiUrl =
-//   'https://api.openweathermap.org/data/2.5/onecall?exclude=hourly,minutely&units=imperial&appid=bb96c7f9ac6f57dc00333727c5407547';
 
 function Weather({ location }) {
 
+  const [weatherData, setWeatherData] = useState([]);
+  const { lat, lng } = location;
+  const { daily, current } = weatherData;
+
+  useEffect(() => {
+    function getWeather() {
+      return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=hourly,minutely&units=metric&lang=ru&appid=bb96c7f9ac6f57dc00333727c5407547`)
+        .then((res) => {
+          return res.json()
+        })
+        .then((data) => {
+          setWeatherData(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+    getWeather();
+  }, [lat, lng])
+
+
+  function upperLetter(string) {
+    return string[0].toUpperCase() + string.slice(1);
+  }
+
+  function convertDate(date) {
+    const milliseconds = date * 1000;
+    const dateObject = new Date(milliseconds);
+    return upperLetter(dateObject.toLocaleString("ru", { weekday: "long" }))
+  }
+
+  console.log(weatherData)
+
   return (
-    <div className="chart">
-      <Bar />
-    </div>
+    <>
+      {weatherData.length === 0 ? null :
+        <div className="content">
+          <div className="current">
+            <h3>Сегодня </h3>
+            <h2>{current.temp.toFixed()} °​C</h2>
+            <img src={`http://openweathermap.org/img/wn/${current.weather[0].icon}.png`} />
+          </div>
+          <h3>{upperLetter(current.weather[0].description)}</h3>
+          <table>
+            <tr>
+              <th>week day</th>
+              <th></th>
+              <th>Low</th>
+              <th>High</th>
+              <th>Humidity</th>
+            </tr>
+            {daily.map((item, index) => (
+              <tr key={index}>
+                <td>{convertDate(item.dt)}</td>
+                <td>
+                  <img src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`} />
+                </td>
+                <td>{item.temp.min.toFixed()} °</td>
+                <td>{item.temp.max.toFixed()} °</td>
+                <td>{item.humidity}</td>
+              </tr>
+            ))}
+          </table>
+        </div>
+      }
+    </>
   );
 }
 
