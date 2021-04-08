@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Geocode from 'react-geocode';
 
-Geocode.setApiKey('AIzaSyDp4os33WF6-4d-xFVyL0HsUUHN7dOml_w');
+function GeoLocationForm({ setLocation, setResult, result }) {
 
-function GeoLocationForm({ setLocation }) {
-
-  const [initialValue, setInitialValue] = useState('Boston');
+  const key = process.env.REACT_APP_GOOGLE_LOCATION_KEY;
+  Geocode.setApiKey(key);
+  const [initialValue, setInitialValue] = useState("");
 
   useEffect(() => {
-    getLocation(initialValue);
-  }, [])
+    getLocation(result);
+  }, [result]);
 
   function getLocation(city) {
     Geocode.fromAddress(city)
@@ -30,18 +30,20 @@ function GeoLocationForm({ setLocation }) {
   function handleSubmit(e) {
     e.preventDefault();
     getLocation(initialValue);
+    setInitialValue("");
+    setResult(initialValue);
   }
 
-  const loc = initialValue;
-  console.log(loc)
 
   return (
     <form onSubmit={handleSubmit}>
       <input
         type='text'
+        placeholder='Введите город'
         value={initialValue}
         onChange={handleInputChange}
       />
+      <button type='submit'>Найти</button>
     </form>
   )
 }

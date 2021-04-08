@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import Loading from './Loading';
+import { url, upperLetter, convertDate, setNumber, imageUrl } from '../utils/config';
 
 
-function Weather({ location }) {
+function Weather({ location, result }) {
 
   const [weatherData, setWeatherData] = useState([]);
+  const [loading, setLoading] = useState(false);
   const { lat, lng } = location;
   const { daily, current } = weatherData;
 
   useEffect(() => {
     function getWeather() {
-      return fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lng}&exclude=hourly,minutely&units=metric&lang=ru&appid=bb96c7f9ac6f57dc00333727c5407547`)
+      setLoading(true);
+      return fetch(url(lat, lng))
         .then((res) => {
           return res.json()
         })
@@ -18,54 +22,57 @@ function Weather({ location }) {
         })
         .catch((err) => {
           console.log(err);
+        })
+        .finally(() => {
+          setLoading(false);
         });
     }
     getWeather();
-  }, [lat, lng])
-
-
-  function upperLetter(string) {
-    return string[0].toUpperCase() + string.slice(1);
-  }
-
-  function convertDate(date) {
-    const milliseconds = date * 1000;
-    const dateObject = new Date(milliseconds);
-    return upperLetter(dateObject.toLocaleString("ru", { weekday: "long" }))
-  }
-
-  console.log(weatherData)
+  }, [lat, lng]);
 
   return (
     <>
-      {weatherData.length === 0 ? null :
+      {weatherData.length === 0 ? <Loading /> :
         <div className="content">
-          <div className="current">
-            <h3>Сегодня </h3>
-            <h2>{current.temp.toFixed()} °​C</h2>
-            <img src={`http://openweathermap.org/img/wn/${current.weather[0].icon}.png`} />
-          </div>
-          <h3>{upperLetter(current.weather[0].description)}</h3>
-          <table>
-            <tr>
-              <th>week day</th>
-              <th></th>
-              <th>Low</th>
-              <th>High</th>
-              <th>Humidity</th>
-            </tr>
-            {daily.map((item, index) => (
-              <tr key={index}>
-                <td>{convertDate(item.dt)}</td>
-                <td>
-                  <img src={`http://openweathermap.org/img/wn/${item.weather[0].icon}.png`} />
-                </td>
-                <td>{item.temp.min.toFixed()} °</td>
-                <td>{item.temp.max.toFixed()} °</td>
-                <td>{item.humidity}</td>
-              </tr>
-            ))}
-          </table>
+          <h1>{upperLetter(result)}</h1>
+          {loading ? <Loading /> :
+            <>
+              <div className="current">
+                <h2>{setNumber(current.temp)} °​C</h2>
+                <img
+                  className="image"
+                  src={imageUrl(current.weather[0].icon)}
+                  alt="погода"
+                />
+                <h3>{upperLetter(current.weather[0].description)}</h3>
+              </div>
+              <table>
+                <tr>
+                  <th className="field">День недели</th>
+                  <th></th>
+                  <th>Низкая</th>
+                  <th>Высокая</th>
+                  <th>ОВ %</th>
+                  <th>Скорость Ветра км/ч</th>
+                </tr>
+                {daily.map((item, index) => (
+                  <tr key={index}>
+                    <td className="day">{convertDate(item.dt)}</td>
+                    <td>
+                      <img
+                        src={imageUrl(item.weather[0].icon)}
+                        alt="погода"
+                      />
+                    </td>
+                    <td>{setNumber(item.temp.min)} °</td>
+                    <td>{setNumber(item.temp.max)} °</td>
+                    <td>{item.humidity}</td>
+                    <td>{setNumber(item.wind_speed)}</td>
+                  </tr>
+                ))}
+              </table>
+            </>
+          }
         </div>
       }
     </>

@@ -17,14 +17,12 @@ body {
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   padding: 0 0 30px;
-  text-align: center;
-  width: 500px;
-  height: 90vh;
   margin: 0 auto;
+  max-width: 700px;
+  height: 85vh;
 }
-
 form {
-  margin-bottom: 50px;
+  text-align: center;
 }
 
 input {
@@ -34,28 +32,114 @@ input {
   outline: none;
   background: #fff;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-  padding: 25px 30px;
-  border-radius: 10px 10px 0 0;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 input:focus,
 input:active {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+input::placeholder {
+  color: #B6BCBF;
+}
+
+button {
+  border-radius: 5px;
+  padding: 8px;
+  margin-top: 10px;
+  width: 100px;
+  border: none;
+  outline: none;
+  box-sizing: content-box;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  background: rgb(180, 180, 180);
+}
+
+button:focus {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
+  0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+button:hover {
+  opacity: 0.6;
+}
+
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 200px;
+  width: 700px;
+}
+
+.animation {
+  width: 74px;
+  height: 74px;
+  border: 1px solid #D1D2D6;
+  border-bottom-color: #1A1B22;
+  border-left-color: #1A1B22;
+  border-radius: 50%;
+  animation: spin .75s infinite linear;
+}
+
+
+@keyframes spin {
+	100% {
+		transform: rotate(360deg);
+	}
 }
 
 .content {
   display: flex;
   flex-direction: column;
-  padding: 0 30px 30px;
+  text-align: center;
+  margin: 30px;
 }
 
 .current {
   display: flex;
   align-items: center;
   margin: auto;
+  margin-bottom: 10px;
+}
+
+h1 {
+  margin: 0;
 }
 
 h2 {
   margin: 0;
+}
+img {
+  width: 40px;
+}
+
+.image {
+  margin: 0 20px;
+}
+
+table {
+  border-collapse: collapse;
+}
+.day {
+  vertical-align: middle;
+  text-align: left;
+}
+
+.field {
+  vertical-align: middle;
+  text-align: left;
+}
+
+th {
+  border-bottom: 1px rgb(124, 124, 124) solid;
+}
+
+td {
+  width: 200px;
 }
