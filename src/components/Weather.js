@@ -3,12 +3,14 @@ import Loading from './Loading';
 import { url, upperLetter, convertDate, setNumber, imageUrl } from '../utils/config';
 
 
-function Weather({ location, result }) {
+function Weather({ location, result, error }) {
 
   const [weatherData, setWeatherData] = useState([]);
   const [loading, setLoading] = useState(false);
   const { lat, lng } = location;
   const { daily, current } = weatherData;
+  const errorMsg = "Ошибка... попробуйте другой город";
+
 
   useEffect(() => {
     function getWeather() {
@@ -34,7 +36,9 @@ function Weather({ location, result }) {
     <>
       {weatherData.length === 0 ? <Loading /> :
         <div className="content">
-          <h1>{upperLetter(result)}</h1>
+          <h1 className={`${error ? 'error' : ''}`}>
+            {error ? errorMsg : upperLetter(result)}
+          </h1>
           {loading ? <Loading /> :
             <>
               <div className="current">
@@ -47,29 +51,31 @@ function Weather({ location, result }) {
                 <h3>{upperLetter(current.weather[0].description)}</h3>
               </div>
               <table>
-                <tr>
-                  <th className="field">День недели</th>
-                  <th></th>
-                  <th>Низкая</th>
-                  <th>Высокая</th>
-                  <th>ОВ %</th>
-                  <th>Скорость Ветра км/ч</th>
-                </tr>
-                {daily.map((item, index) => (
-                  <tr key={index}>
-                    <td className="day">{convertDate(item.dt)}</td>
-                    <td>
-                      <img
-                        src={imageUrl(item.weather[0].icon)}
-                        alt="погода"
-                      />
-                    </td>
-                    <td>{setNumber(item.temp.min)} °</td>
-                    <td>{setNumber(item.temp.max)} °</td>
-                    <td>{item.humidity}</td>
-                    <td>{setNumber(item.wind_speed)}</td>
+                <tbody>
+                  <tr>
+                    <th className="field">День недели</th>
+                    <th></th>
+                    <th>Низкая</th>
+                    <th>Высокая</th>
+                    <th>ОВ %</th>
+                    <th>Скорость Ветра км/ч</th>
                   </tr>
-                ))}
+                  {daily.map((item, index) => (
+                    <tr key={index}>
+                      <td className="day">{convertDate(item.dt)}</td>
+                      <td>
+                        <img
+                          src={imageUrl(item.weather[0].icon)}
+                          alt="погода"
+                        />
+                      </td>
+                      <td>{setNumber(item.temp.min)} °</td>
+                      <td>{setNumber(item.temp.max)} °</td>
+                      <td>{item.humidity}</td>
+                      <td>{setNumber(item.wind_speed)}</td>
+                    </tr>
+                  ))}
+                </tbody>
               </table>
             </>
           }

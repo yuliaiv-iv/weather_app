@@ -13,13 +13,13 @@ body {
 }
 
 .app {
-  background: #d4d4d4;
+  background: #dddddd;
   border-radius: 10px;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
   padding: 0 0 30px;
   margin: 0 auto;
-  max-width: 700px;
-  height: 85vh;
+  width: 700px;
+  height: 670px;
 }
 form {
   text-align: center;
@@ -45,23 +45,29 @@ input:active {
 input::placeholder {
   color: #B6BCBF;
 }
+form {
+  position: relative;
+}
 
 button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
   border-radius: 5px;
-  padding: 8px;
-  margin-top: 10px;
-  width: 100px;
+  width: 80px;
   border: none;
   outline: none;
   box-sizing: content-box;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
-  background: rgb(180, 180, 180);
+  background: #fff;
+  padding: 0;
 }
 
 button:focus {
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2),
+  box-shadow: -10px 10px 15px -3px rgba(0, 0, 0, 0.2),
   0 4px 6px -2px rgba(0, 0, 0, 0.05);
 }
 
@@ -74,7 +80,6 @@ button:hover {
   flex-direction: column;
   align-items: center;
   padding-top: 200px;
-  width: 700px;
 }
 
 .animation {
@@ -110,6 +115,11 @@ button:hover {
 
 h1 {
   margin: 0;
+}
+
+.error {
+  color: #B6BCBF;
+  font-size: 24px;
 }
 
 h2 {

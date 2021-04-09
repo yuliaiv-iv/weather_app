@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Geocode from 'react-geocode';
 
-function GeoLocationForm({ setLocation, setResult, result }) {
+function GeoLocationForm({ 
+  setLocation, 
+  setResult, 
+  result,
+  setError,
+}) {
 
   const key = process.env.REACT_APP_GOOGLE_LOCATION_KEY;
   Geocode.setApiKey(key);
@@ -16,11 +21,13 @@ function GeoLocationForm({ setLocation, setResult, result }) {
       .then((res) => {
         const lat = res.results[0].geometry.location.lat;
         const lng = res.results[0].geometry.location.lng;
-        setLocation({ lat, lng })
+        setLocation({ lat, lng });
+        setError(false);
       })
       .catch((err) => {
         console.log(err);
-      });
+        setError(true);
+      })
   }
 
   function handleInputChange(e) {
@@ -35,6 +42,7 @@ function GeoLocationForm({ setLocation, setResult, result }) {
   }
 
 
+
   return (
     <form onSubmit={handleSubmit}>
       <input
@@ -43,7 +51,12 @@ function GeoLocationForm({ setLocation, setResult, result }) {
         value={initialValue}
         onChange={handleInputChange}
       />
-      <button type='submit'>Найти</button>
+      <button 
+        type='submit'
+        disabled={initialValue === '' ? true : false}
+      >
+        {'>'}
+      </button>
     </form>
   )
 }
