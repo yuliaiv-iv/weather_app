@@ -47,7 +47,7 @@ function GeoLocationForm({
     <form onSubmit={handleSubmit}>
       <input
         type='text'
-        placeholder='Введите город'
+        placeholder='Type city or location'
         value={initialValue}
         onChange={handleInputChange}
       />

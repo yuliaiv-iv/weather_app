@@ -9,7 +9,7 @@ function Weather({ location, result, error }) {
   const [loading, setLoading] = useState(false);
   const { lat, lng } = location;
   const { daily, current } = weatherData;
-  const errorMsg = "Ошибка... попробуйте другой город";
+  const errorMsg = "Error... Search for other city or location";
 
 
   useEffect(() => {
@@ -46,19 +46,19 @@ function Weather({ location, result, error }) {
                 <img
                   className="image"
                   src={imageUrl(current.weather[0].icon)}
-                  alt="погода"
+                  alt="weather"
                 />
                 <h3>{upperLetter(current.weather[0].description)}</h3>
               </div>
               <table>
                 <tbody>
                   <tr>
-                    <th className="field">День недели</th>
+                    <th className="field">Week day</th>
                     <th></th>
-                    <th>Низкая</th>
-                    <th>Высокая</th>
-                    <th>ОВ %</th>
-                    <th>Скорость Ветра км/ч</th>
+                    <th>Low</th>
+                    <th>High</th>
+                    <th>Humidity %</th>
+                    <th>Wind km/hr</th>
                   </tr>
                   {daily.map((item, index) => (
                     <tr key={index}>
@@ -66,7 +66,7 @@ function Weather({ location, result, error }) {
                       <td>
                         <img
                           src={imageUrl(item.weather[0].icon)}
-                          alt="погода"
+                          alt="weather"
                         />
                       </td>
                       <td>{setNumber(item.temp.min)} °</td>

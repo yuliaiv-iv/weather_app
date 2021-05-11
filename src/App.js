@@ -6,7 +6,7 @@ import Weather from './components/Weather';
 export default function App() {
 
   const [location, setLocation] = useState(null);
-  const [result, setResult] = useState('Бостон');
+  const [result, setResult] = useState('Boston');
   const [error, setError] = useState(false);
 
   return (
